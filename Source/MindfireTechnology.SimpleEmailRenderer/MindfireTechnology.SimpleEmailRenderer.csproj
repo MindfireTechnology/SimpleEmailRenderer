@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0-alpha</Version>
+    <Authors>Nate Zaugg</Authors>
+    <Company>Mindfire Technology</Company>
+    <Product>Simple Email Renderer</Product>
+    <Description>A simple renderer for email. Set a base folder url. Add an optional Settings.json file to specify the from / subject. Specify a MessageBody.txt and/or MessageBody.html. Strings will be replaced that are in the format {{Key}}. So if the dictionary passed in is FirstName = "Nate", then {{FirstName}} will be replaced by "Nate".</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>Email Generation</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+  </ItemGroup>
+
+</Project>

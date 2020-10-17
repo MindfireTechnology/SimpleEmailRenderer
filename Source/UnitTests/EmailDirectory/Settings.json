@@ -1,0 +1,6 @@
+{
+	"FromEmail": "none@none.com",
+	"FromDisplayName": "Jon Doe",
+
+	"EmailSubject": "Override Me!"
+}

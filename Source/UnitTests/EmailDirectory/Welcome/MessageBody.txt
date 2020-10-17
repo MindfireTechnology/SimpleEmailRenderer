@@ -1,0 +1,8 @@
+﻿{{FirstName}} {{LastName}},
+
+Welcome to our site!
+
+{{Code}}
+
+Thanks!
+Test Email!
