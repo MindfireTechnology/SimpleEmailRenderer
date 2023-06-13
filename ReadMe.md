@@ -42,7 +42,7 @@ The `EmailSubject` will be "This is a template specific subject" for the templat
 
 ## Multilingual Configuration
 
-You can add multilingual email templates by using the `TwoLetterISOLanguageName` as part of the path to the template folder. E.g. `BaseDirectory\{TemplateName}\{TwoLetterISOLanguageName}\{TemplateName}.html`
+You can add multilingual email templates by using the `TwoLetterISOLanguageName` as part of the path to the template folder. E.g. `BaseDirectory\{TemplateName}\{TwoLetterISOLanguageName}\messagebody.html`
 
 
 ## Usage
@@ -73,6 +73,7 @@ You can add multilingual email templates by using the `TwoLetterISOLanguageName`
 
 Example of a template:
 
+This file must be named `messagebody.html` and must be in the folder that matches the template name.
 ```html
 <h2>{{FirstName}} {{LastName}},</h2>
 
@@ -84,4 +85,4 @@ Thanks!
 Test Email!
 ```
 
-A plain text version would be mostly the same, but without the HTML markup, of course.
+A plain text version would be mostly the same, but without the HTML markup, of course. It should be named `messagebody.txt` and must be in the folder that matches the template name.

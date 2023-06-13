@@ -18,6 +18,10 @@ namespace MindfireTechnology.SimpleEmailRenderer
 	// BaseDirectory/TemplateName/CultureCode/Settings.json ...
 	public class SimpleEmailRenderer : IEmailRenderer
 	{
+		protected static readonly string SettingsFileName = "settings.json";
+		protected static readonly string TxtMessageBodyFileName = "messagebody.txt";
+		protected static readonly string HtmlMessageBodyFileName = "messagebody.html";
+
 		public string BaseDirectory { get; set; }
 
 
@@ -38,8 +42,8 @@ namespace MindfireTechnology.SimpleEmailRenderer
 
 			var settings = await LoadSettings(emailTemplate);
 
-			string plainTextTemplateFile = await LoadTemplate("MessageBody.txt", emailTemplate, culture);
-			string htmlTemplateFile = await LoadTemplate("MessageBody.html", emailTemplate, culture);
+			string plainTextTemplateFile = await LoadTemplate(TxtMessageBodyFileName, emailTemplate, culture);
+			string htmlTemplateFile = await LoadTemplate(HtmlMessageBodyFileName, emailTemplate, culture);
 
 			Email result = new();
 			result.Subject = settings.EmailSubject;
@@ -91,31 +95,41 @@ namespace MindfireTechnology.SimpleEmailRenderer
 		protected virtual async Task<Settings> LoadSettings(string emailTemplate, CultureInfo culture = null)
 		{
 			// Load base settings
-			Settings settings = null;
+			Settings settings = new();
 			StringBuilder errMsg = new();
+			bool foundSettings = false;
 
-			string settingsFile = Path.Combine(BaseDirectory, "Settings.json");
+			string settingsFile = Path.Combine(BaseDirectory, SettingsFileName);
 			if (File.Exists(settingsFile))
+			{ 
 				settings = settings.Combine(await Settings.LoadFromFile(settingsFile));
+				foundSettings = true;
+			}
 			else
 				errMsg.Append($"'{settingsFile}', ");
 
-			settingsFile = Path.Combine(BaseDirectory, emailTemplate, "Settings.json");
+			settingsFile = Path.Combine(BaseDirectory, emailTemplate, SettingsFileName);
 			if (File.Exists(settingsFile))
+			{ 
 				settings = settings.Combine(await Settings.LoadFromFile(settingsFile));
+				foundSettings = true;
+			}
 			else
 				errMsg.Append($"'{settingsFile}', ");
 
 			if (culture != null)
 			{
-				settingsFile = Path.Combine(BaseDirectory, emailTemplate, culture.TwoLetterISOLanguageName, "Settings.json");
+				settingsFile = Path.Combine(BaseDirectory, emailTemplate, culture.TwoLetterISOLanguageName, SettingsFileName);
 				if (File.Exists(settingsFile))
+				{
 					settings = settings.Combine(await Settings.LoadFromFile(settingsFile));
+					foundSettings = true;
+				}
 				else
 					errMsg.Append($"'{settingsFile}', ");
 			}
 
-			if (settings == null)
+			if (foundSettings is not true)
 				throw new FileNotFoundException($"Could not find settings file in any of: {errMsg.ToString().Trim().Trim(',')}");
 
 			// Validate the settings
