@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,14 +16,14 @@ namespace MindfireTechnology.SimpleEmailRenderer
 	// BaseDirectory/TemplateName/MessageBody.txt
 	// BaseDirectory/TemplateName/MessageBody.html
 	// BaseDirectory/TemplateName/CultureCode/Settings.json ...
-	public class SimpleEmailRenderer
+	public class SimpleEmailRenderer : IEmailRenderer
 	{
 		public string BaseDirectory { get; set; }
 
 
 		public SimpleEmailRenderer()
 		{
-			
+
 		}
 
 		public SimpleEmailRenderer(IConfiguration settings)
@@ -90,22 +91,39 @@ namespace MindfireTechnology.SimpleEmailRenderer
 		protected virtual async Task<Settings> LoadSettings(string emailTemplate, CultureInfo culture = null)
 		{
 			// Load base settings
-			Settings settings = new();
+			Settings settings = null;
+			StringBuilder errMsg = new();
 
 			string settingsFile = Path.Combine(BaseDirectory, "Settings.json");
 			if (File.Exists(settingsFile))
 				settings = settings.Combine(await Settings.LoadFromFile(settingsFile));
+			else
+				errMsg.Append($"'{settingsFile}', ");
 
 			settingsFile = Path.Combine(BaseDirectory, emailTemplate, "Settings.json");
 			if (File.Exists(settingsFile))
 				settings = settings.Combine(await Settings.LoadFromFile(settingsFile));
+			else
+				errMsg.Append($"'{settingsFile}', ");
 
 			if (culture != null)
 			{
 				settingsFile = Path.Combine(BaseDirectory, emailTemplate, culture.TwoLetterISOLanguageName, "Settings.json");
 				if (File.Exists(settingsFile))
 					settings = settings.Combine(await Settings.LoadFromFile(settingsFile));
+				else
+					errMsg.Append($"'{settingsFile}', ");
 			}
+
+			if (settings == null)
+				throw new FileNotFoundException($"Could not find settings file in any of: {errMsg.ToString().Trim().Trim(',')}");
+
+			// Validate the settings
+			if (string.IsNullOrWhiteSpace(settings.FromEmail))
+				throw new ConfigurationException($"{nameof(settings.FromEmail)} is required.");
+
+			if (string.IsNullOrWhiteSpace(settings.EmailSubject))
+				throw new ConfigurationException($"{nameof(settings.EmailSubject)} is required.");
 
 			return settings;
 		}
