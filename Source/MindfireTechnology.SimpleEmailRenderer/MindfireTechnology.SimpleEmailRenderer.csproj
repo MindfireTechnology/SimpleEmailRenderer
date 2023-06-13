@@ -1,19 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFrameworks>netstandard2.1;net5.0;net6.0;net7.0</TargetFrameworks>
     <LangVersion>preview</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.0-alpha</Version>
+    <Version>1.2.0</Version>
     <Authors>Nate Zaugg</Authors>
-    <Company>Mindfire Technology</Company>
+    <Company>Mindfire Tech</Company>
     <Product>Simple Email Renderer</Product>
-    <Description>A simple renderer for email. Set a base folder url. Add an optional Settings.json file to specify the from / subject. Specify a MessageBody.txt and/or MessageBody.html. Strings will be replaced that are in the format {{Key}}. So if the dictionary passed in is FirstName = "Nate", then {{FirstName}} will be replaced by "Nate".</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageTags>Email Generation</PackageTags>
+    <PackageTags>Email Generation, Email Generator</PackageTags>
+    <Title>Simple Email Renderer</Title>
+    <PackageReadmeFile>ReadMe.md</PackageReadmeFile>
+    <PackageIcon>MTechLogoBlueGreyOrange.png</PackageIcon>
+    <RepositoryUrl>https://github.com/MindfireTechnology/SimpleEmailRenderer</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MindfireTechnology/SimpleEmailRenderer</PackageProjectUrl>
+    <Description>A simple renderer for email. Set a base folder url. Add an optional Settings.json file to specify the from / subject. Specify a MessageBody.txt and/or MessageBody.html. Strings will be replaced that are in the format {{Key}}. So if the dictionary passed in is FirstName = "Nate", then {{FirstName}} will be replaced by "Nate".</Description>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\ReadMe.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\Resources\MTechLogoBlueGreyOrange.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
     <PackageReference Include="System.Text.Json" Version="4.7.2" />
   </ItemGroup>
 

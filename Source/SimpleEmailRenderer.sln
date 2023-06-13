@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MindfireTechnology.SimpleEmailRenderer", "MindfireTechnology.SimpleEmailRenderer\MindfireTechnology.SimpleEmailRenderer.csproj", "{2A8B18C8-63AF-4EDC-93BF-184D3F4712DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MindfireTechnology.SimpleEmailRenderer", "MindfireTechnology.SimpleEmailRenderer\MindfireTechnology.SimpleEmailRenderer.csproj", "{2A8B18C8-63AF-4EDC-93BF-184D3F4712DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6E04DFFC-F84C-46CD-81C8-EACEB48D6B54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6E04DFFC-F84C-46CD-81C8-EACEB48D6B54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F33EC308-C0AA-4926-8344-EB22490DA2C4}"
+	ProjectSection(SolutionItems) = preProject
+		..\ReadMe.md = ..\ReadMe.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
