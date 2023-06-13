@@ -40,10 +40,19 @@ namespace MindfireTechnology.SimpleEmailRenderer
 			if (string.IsNullOrWhiteSpace(BaseDirectory))
 				throw new InvalidOperationException("BaseDirectory is not setup! Please either set the BaseDirectory property on this class or configure the `SimpleEmailRenderer:BaseDirectory` setting");
 
+			if (string.IsNullOrWhiteSpace(emailTemplate))
+				throw new ArgumentNullException(nameof(emailTemplate));
+
+			if (replaceDictionary == null)
+				throw new ArgumentNullException(nameof(replaceDictionary));	
+
 			var settings = await LoadSettings(emailTemplate);
 
 			string plainTextTemplateFile = await LoadTemplate(TxtMessageBodyFileName, emailTemplate, culture);
 			string htmlTemplateFile = await LoadTemplate(HtmlMessageBodyFileName, emailTemplate, culture);
+
+			if (plainTextTemplateFile == null && htmlTemplateFile == null)
+				throw new FileNotFoundException($"Could not find email template. Check that the directory name matches the email template you asked to be rendered and that the files are named `messagebody.txt` and/or `messagebody.html`");
 
 			Email result = new();
 			result.Subject = settings.EmailSubject;
@@ -54,10 +63,10 @@ namespace MindfireTechnology.SimpleEmailRenderer
 			if (replaceDictionary.ContainsKey("ToDisplayName"))
 				result.ToDisplayName = replaceDictionary["ToDisplayName"];
 
-			if (!string.IsNullOrWhiteSpace(plainTextTemplateFile))
+			if (string.IsNullOrWhiteSpace(plainTextTemplateFile) is not true)
 				result.BodyPlainText = Merge(plainTextTemplateFile, replaceDictionary);
 
-			if (!string.IsNullOrWhiteSpace(htmlTemplateFile))
+			if (string.IsNullOrWhiteSpace(htmlTemplateFile) is not true)
 				result.BodyHtml = Merge(htmlTemplateFile, replaceDictionary);
 
 			return result;
@@ -89,7 +98,8 @@ namespace MindfireTechnology.SimpleEmailRenderer
 			if (File.Exists(file))
 				return File.ReadAllTextAsync(file);
 
-			return null;
+
+			return Task.FromResult<string>(null);
 		}
 
 		protected virtual async Task<Settings> LoadSettings(string emailTemplate, CultureInfo culture = null)

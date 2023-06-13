@@ -16,8 +16,8 @@ This is a very simple email rendering package. Simple dictionary substitution oc
 
 1. Create a folder in your project called `EmailTemplates` (or whatever you set the `SimpleEmailRenderer:BaseDirectory` to)
 1. Each folder in the `EmailTemplates` folder will be a template. The name of the folder will be the name of the template.
-1. Each template folder should contain a `{TemplateName}.html` file. This is the template that will be used to render the HTML version of the email.
-1. Each template folder should contain a `{TemplateName}.txt` file. This is the template that will be used to render the text version of the email.
+1. Each template folder should contain a `messagebody.html` file. This is the template that will be used to render the HTML version of the email.
+1. Each template folder should contain a `messagebody.txt` file. This is the template that will be used to render the text version of the email.
 1. There should be a `settings.json` file in the root of the `EmailTemplates` folder. This file contains the default settings for all templates.
 	1. Each template folder may contain a `settings.json` that override the settings in the root `settings.json` file.
 
